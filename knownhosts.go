@@ -84,12 +84,20 @@ func (hkcb HostKeyCallback) HostKeyAlgorithms(hostWithPort string) (algos []stri
 	}
 	for _, key := range hostKeys {
 		typ := key.Type()
-		if typ == ssh.KeyAlgoRSA {
+		cert, ok := key.(*ssh.Certificate)
+		if ok {
+			typ = cert.Type()
+		}
+		switch typ {
+		case ssh.KeyAlgoRSA:
 			// KeyAlgoRSASHA256 and KeyAlgoRSASHA512 are only public key algorithms,
 			// not public key formats, so they can't appear as a PublicKey.Type.
 			// The corresponding PublicKey.Type is KeyAlgoRSA. See RFC 8332, Section 2.
 			addAlgo(ssh.KeyAlgoRSASHA512)
 			addAlgo(ssh.KeyAlgoRSASHA256)
+		case ssh.CertAlgoRSAv01:
+			addAlgo(ssh.CertAlgoRSASHA512v01)
+			addAlgo(ssh.CertAlgoRSASHA256v01)
 		}
 		addAlgo(typ)
 	}
