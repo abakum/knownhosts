@@ -1,5 +1,11 @@
 // Package knownhosts is a thin wrapper around golang.org/x/crypto/ssh/knownhosts,
 // adding the ability to obtain the list of host key algorithms for a known host.
+/*
+git checkout certs-backwards-compat
+git branch -m main old-main
+git branch -m certs-backwards-compat main
+*/
+
 package knownhosts
 
 import (
