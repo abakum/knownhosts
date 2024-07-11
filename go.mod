@@ -1,4 +1,4 @@
-module github.com/skeema/knownhosts
+module github.com/abakum/knownhosts
 
 go 1.17
 
