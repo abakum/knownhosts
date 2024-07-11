@@ -50,8 +50,8 @@ func main() {
 	}
 
 	for _, host := range []string{host22, host222} {
-		ExampleNew(sshAgent, host)
-		NewWriteKnownHost(sshAgent, host)
+		// ExampleNew(sshAgent, host)
+		// NewWriteKnownHost(sshAgent, host)
 		ExampleNewDB(sshAgent, host)
 		NewDBWriteKnownHost(sshAgent, host)
 	}
@@ -114,6 +114,9 @@ func NewDBWriteKnownHost(sshAgent agent.ExtendedAgent, host string) {
 	cb := ssh.HostKeyCallback(func(hostname string, remote net.Addr, key ssh.PublicKey) error {
 		innerCallback := kh.HostKeyCallback()
 		err := innerCallback(hostname, remote, key)
+		log.Println("innerCallback(hostname, remote, key)", err)
+		log.Println("knownhosts.IsHostKeyChanged(err)", knownhosts.IsHostKeyChanged(err))
+		log.Println("knownhosts.IsHostUnknown(err)", knownhosts.IsHostUnknown(err))
 		if knownhosts.IsHostKeyChanged(err) {
 			return fmt.Errorf("REMOTE HOST IDENTIFICATION HAS CHANGED for host %s! This may indicate a MitM attack.", hostname)
 		} else if knownhosts.IsHostUnknown(err) {
@@ -160,6 +163,9 @@ func NewWriteKnownHost(sshAgent agent.ExtendedAgent, host string) {
 	// with changed keys, but allows unknown hosts and adds them to known_hosts
 	cb := ssh.HostKeyCallback(func(hostname string, remote net.Addr, key ssh.PublicKey) error {
 		err := kh(hostname, remote, key)
+		log.Println("kh(hostname, remote, key)", err)
+		log.Println("knownhosts.IsHostKeyChanged(err)", knownhosts.IsHostKeyChanged(err))
+		log.Println("knownhosts.IsHostUnknown(err)", knownhosts.IsHostUnknown(err))
 		if knownhosts.IsHostKeyChanged(err) {
 			return fmt.Errorf("REMOTE HOST IDENTIFICATION HAS CHANGED for host %s! This may indicate a MitM attack.", hostname)
 		} else if knownhosts.IsHostUnknown(err) {
