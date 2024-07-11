@@ -6,7 +6,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/skeema/knownhosts"
+	"github.com/abakum/knownhosts"
 	"golang.org/x/crypto/ssh"
 )
 
