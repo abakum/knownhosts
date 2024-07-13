@@ -18,6 +18,7 @@ This repo ([github.com/skeema/knownhosts](https://github.com/skeema/knownhosts))
 
 * Look up known_hosts public keys for any given host
 * Auto-populate ssh.ClientConfig.HostKeyAlgorithms easily based on known_hosts, providing a solution for [golang/go#29286](https://github.com/golang/go/issues/29286)
+* Properly match wildcard hostname known_hosts entries regardless of port number, providing a solution for [golang/go#52056](https://github.com/golang/go/issues/52056)
 * Write new known_hosts entries to an io.Writer
 * Properly format/normalize new known_hosts entries containing ipv6 addresses, providing a solution for [golang/go#53463](https://github.com/golang/go/issues/53463)
 * Determine if an ssh.HostKeyCallback's error corresponds to a host whose key has changed (indicating potential MitM attack) vs a host that just isn't known yet
