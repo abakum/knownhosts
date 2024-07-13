@@ -18,6 +18,8 @@ import (
 	xknownhosts "golang.org/x/crypto/ssh/knownhosts"
 )
 
+//go:generate go run github.com/abakum/version
+
 // HostKeyDB wraps logic in golang.org/x/crypto/ssh/knownhosts with additional
 // behaviors, such as the ability to perform host key/algorithm lookups from
 // known_hosts entries.
