@@ -7,12 +7,9 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
-	"encoding/base64"
-	"fmt"
 	"net"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"golang.org/x/crypto/ssh"
@@ -194,13 +191,25 @@ func TestWithCertLines(t *testing.T) {
 			expectedAlgos:    []string{ssh.KeyAlgoRSASHA512, ssh.KeyAlgoRSASHA256, ssh.KeyAlgoRSA, ssh.CertAlgoECDSA256v01},
 		},
 		{
-			host:             "whatever.lol.test:22", // only matches the * entry
+			host:             "whatever.test:22", // only matches the * entry
+			expectedKeyTypes: []string{ssh.KeyAlgoECDSA256},
+			expectedIsCert:   []bool{true},
+			expectedAlgos:    []string{ssh.CertAlgoECDSA256v01},
+		},
+		{
+			host:             "whatever.test:22022", // only matches the * entry
 			expectedKeyTypes: []string{ssh.KeyAlgoECDSA256},
 			expectedIsCert:   []bool{true},
 			expectedAlgos:    []string{ssh.CertAlgoECDSA256v01},
 		},
 		{
 			host:             "asdf.certy.test:22",
+			expectedKeyTypes: []string{ssh.KeyAlgoRSA, ssh.KeyAlgoECDSA256, ssh.KeyAlgoED25519},
+			expectedIsCert:   []bool{true, true, true},
+			expectedAlgos:    []string{ssh.CertAlgoRSASHA512v01, ssh.CertAlgoRSASHA256v01, ssh.CertAlgoRSAv01, ssh.CertAlgoECDSA256v01, ssh.CertAlgoED25519v01},
+		},
+		{
+			host:             "oddport.certy.test:2345",
 			expectedKeyTypes: []string{ssh.KeyAlgoRSA, ssh.KeyAlgoECDSA256, ssh.KeyAlgoED25519},
 			expectedIsCert:   []bool{true, true, true},
 			expectedAlgos:    []string{ssh.CertAlgoRSASHA512v01, ssh.CertAlgoRSASHA256v01, ssh.CertAlgoRSAv01, ssh.CertAlgoECDSA256v01, ssh.CertAlgoED25519v01},
@@ -483,17 +492,12 @@ func appendCertTestKnownHosts(t *testing.T, filePath, hostPattern, keyType strin
 		testCertKeys[cacheKey] = pubKey
 	}
 
-	if strings.TrimSpace(hostPattern) == "" {
-		hostPattern = "*"
-	}
-
 	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
 	if err != nil {
 		t.Fatalf("Unable to open %s for writing: %v", filePath, err)
 	}
 	defer f.Close()
-	encodedKey := base64.StdEncoding.EncodeToString(pubKey.Marshal())
-	if _, err = fmt.Fprintf(f, "@cert-authority %s %s %s\n", hostPattern, pubKey.Type(), encodedKey); err != nil {
+	if err := WriteKnownHostCA(f, hostPattern, pubKey); err != nil {
 		t.Fatalf("Unable to append @cert-authority line to %s: %v", filePath, err)
 	}
 }
