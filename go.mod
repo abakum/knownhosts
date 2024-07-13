@@ -2,8 +2,10 @@ module github.com/abakum/knownhosts
 
 go 1.21
 
+// replace github.com/abakum/pageant => ../pageant
+
 require (
-	github.com/abakum/pageant v0.0.0-20240419114114-01633e0d85e4
+	github.com/abakum/pageant v0.0.1
 	golang.org/x/crypto v0.24.0
 )
 

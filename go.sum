@@ -1,7 +1,7 @@
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
-github.com/abakum/pageant v0.0.0-20240419114114-01633e0d85e4 h1:m9Hw8phO6pkDg6qvWovQ8PPkXeHd2TLl390Xdm/FtKo=
-github.com/abakum/pageant v0.0.0-20240419114114-01633e0d85e4/go.mod h1:8ryVwuOxinyKkcK1sXf8np1lEvLuZNgK8Dn7BX+cr4E=
+github.com/abakum/pageant v0.0.1 h1:2EpMzAmTBWD3V5FBRkoWBhSZzlU6kt2pA22DGip483w=
+github.com/abakum/pageant v0.0.1/go.mod h1:gHKquS9jedACwzGNTPn78aay4HvutpX17s1Y3y1Z0dY=
 golang.org/x/crypto v0.24.0 h1:mnl8DM0o513X8fdIkmyFE/5hTYxbwYOjDS/+rK6qpRI=
 golang.org/x/crypto v0.24.0/go.mod h1:Z1PMYSOR5nyMcyAVAIQSKCDwalqy85Aqn1x3Ws4L5DM=
 golang.org/x/mod v0.8.0 h1:LUYupSeNrTNCGzR/hVBk2NHZO4hXcVaW1k4Qx7rjPx8=
