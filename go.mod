@@ -1,8 +1,6 @@
 module github.com/abakum/knownhosts
 
-go 1.21.3
-
-toolchain go1.21.4
+go 1.21
 
 require (
 	github.com/abakum/pageant v0.0.0-20240419114114-01633e0d85e4
